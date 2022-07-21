@@ -1,0 +1,336 @@
+\documentclass{ltjsarticle}
+
+\makeatletter
+\def\@arabic#1{\the\numexpr(#1)-1\relax}
+\def\@roman#1{\romannumeral\numexpr(#1)-1\relax}
+\def\@Roman#1{\expandafter\@slowromancap\romannumeral\numexpr(#1)-1\relax @}
+\makeatother
+
+\usepackage[deluxe, noto-otf]{luatexja-preset}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{framed}
+\usepackage[standard, framed]{ntheorem}
+\usepackage{unicode-math}
+\usepackage{tikz-cd}
+\usepackage[colorlinks]{hyperref}
+\usepackage[nameinlink]{cleveref}
+\usepackage{makeidx}
+\makeindex
+\usepackage{luacode}
+\begin{luacode*}
+  function date()
+    local table = os.date("*t")
+    tex.sprint((table["year"] + 10000) .. "-" .. table["yday"] - 1)
+  end
+\end{luacode*}
+
+\renewcommand\emph[1]{{\gtfamily\sffamily #1}}
+\newcommand\emphNu[2]{\emph{#1}\index{#2@#1}}
+
+\DeclareMathOperator{\obj}{obj}
+\DeclareMathOperator{\mor}{mor}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\codom}{\underline{dom}}
+\DeclareMathOperator{\id}{id}
+\newcommand{\comp}{\mathbin{|}}
+\DeclarePairedDelimiter\braces{\lbrace}{\rbrace}
+
+\title{圏論}
+\author{sumi}
+\date{\directlua{date()}}
+
+\begin{document}
+\maketitle
+
+\begin{definition}[圏]\label{def-cat}
+  \emphNu{圏}{けん}$A$は次からなる.
+  \begin{itemize}
+    \item \emphNu{對象}{たいじゃぐ}が集まり$\obj A$
+    \item \emphNu{射}{じゃ}が集まり$\mor A$
+    \item 各$a∈\obj A$につき, \emph{恆等射}$\id_A a∈\obj A$
+    \item 各$f∈\mor A$につき, \emph{域}$\dom_A a∈\obj A$と\emph{餘域}$\codom_A b∈\obj A$
+    \item 各$f,g\mor A$, 但し$\codom_A f=\dom_A g$につき, \emph{合成射}$f\comp_A g$
+  \end{itemize}
+
+  但し次を滿たす.
+  \begin{align}
+    \dom_A(\id_A a)                 & =\codom_A(\id_A a)=a                 \\
+    \dom_A (f\comp_A g)             & =\dom_A f                            \\
+    \codom_A (f\comp_A g)           & =\codom_A g                          \\
+    \dom_A f=a ⇒ \id_A a\comp_A f   & =f   \tag{左單位律}                  \\
+    \codom_A f=b ⇒ f\comp_A \id_A b & =f \tag{右單位律}                    \\
+    (f\comp_A g)\comp_A h           & = f\comp_A (g\comp_A h) \tag{結合律}
+  \end{align}
+\end{definition}
+$A$の明らかなる時に$\id_A, \dom_A,\dots$等の添へ字を省略す.
+
+\cref{def-cat}が條件を圖にせば次となる.
+\begin{center}
+  \begin{tikzcd}
+    a \arrow[loop left, "\id a"]
+  \end{tikzcd}\smallskip
+
+  \begin{tikzcd}
+    a \ar[r, "f"]  \arrow[rd, "f\comp g"']  & b \ar[d, "g"] \\
+    & c
+  \end{tikzcd}\smallskip
+
+  \begin{tikzcd}
+    a \arrow[equal, r, "\id a"] \arrow[rd, "\id a\comp f"'] & a \ar[d, "f"] \arrow[rd, "f\comp \id b"]\\
+    & b \arrow[equal, r, "\id b"'] & b
+  \end{tikzcd}\smallskip
+
+  \begin{tikzcd}
+    a \ar[r, "f"] \ar[rd, "f\comp g"'] \arrow[bend left=90, rrd, "f\comp (g\comp h)"] \arrow[bend right=90, rrd, "(f\comp g)\comp h"'] & b \ar[d, "g"] \ar[rd, "g\comp h"] \\ & c \ar[r, "h"'] & d
+  \end{tikzcd}
+\end{center}
+
+次なる略記を使ふ.
+\begin{align}
+  a∈A                      & ⇔ a∈\obj A              \\
+  f∈A                      & ⇔ f∈\mor A              \\
+  f:a→b ⇔ a\overset{f}{→}b & ⇔ \dom f=a ∧ \codom f=b \\
+  f∈A(a,b)                 & ⇔ f∈A ∧ f:a→b
+\end{align}
+
+\begin{example}
+  \begin{itemize}
+    \item $\obj 𝟙=\braces{*},\mor 𝟙=\braces{\id *}$なる$𝟙$
+  \end{itemize}
+\end{example}
+
+\begin{definition}[同型]
+  對象$a,b$が\emphNu{同型}{づぐぎゃぐ}なる$⇔$
+  \begin{equation}
+    ∃(f∈A(a,b),g∈A(b,a)),\ f\comp g=\id a ∧ g\comp f=\id b
+  \end{equation}
+\end{definition}
+
+\begin{definition}[函手]
+  圏$A,B$につき, 函手$F$は次からなる.
+  \begin{itemize}
+    \item $\obj A$から$\obj B$が寫像$F_{\obj}$
+    \item $\mor A$から$\mor B$が寫像$F_{\mor}$
+  \end{itemize}
+
+  但し次を滿たす.
+  \begin{align}
+    F_{\mor}(\id_A a)    & = \id_B (F_{\obj} a)              \\
+    F_{\mor}(f\comp_A g) & = (F_{\mor} f)\comp_B(F_{\mor} g)
+  \end{align}
+\end{definition}
+
+次なる略記を使ふ.
+\begin{align}
+  Fa & = F_{\obj} a \\
+  Ff & = F_{\mor} f \\
+\end{align}
+
+\begin{definition}[終對象]
+  次を滿たす對象$1$は$A$が\emphNu{終對象}{しぐたいじゃぐ}なり.
+  \begin{equation}
+    ∀a∈A,\ ∃_{1}u,\ u:a→1
+  \end{equation}
+  \begin{center}
+    \begin{tikzcd}
+      ∀a \arrow[r, dotted, "u"] & 1
+    \end{tikzcd}
+  \end{center}
+\end{definition}
+
+\begin{definition}[餘終對象]
+  次を滿たす對象$0$は$A$が\emphNu{餘終對象}{よしぐたいじゃぐ} (始對象) なり.
+  \begin{equation}
+    ∀a∈A,\ ∃_{1}u,\ u:0→a
+  \end{equation}
+  \begin{center}
+    \begin{tikzcd}
+      ∀a & 0 \arrow[l, dotted, "u"]
+    \end{tikzcd}
+  \end{center}
+\end{definition}
+
+\begin{definition}[雙對圏]
+  圏$A$が\emph{雙對圏}$\underline{A}$を次にて定義す.
+  \begin{align}
+    \obj\underline{A}       & =\obj A     \\
+    \mor\underline{A}       & =\mor A     \\
+    \codom_{\underline{A}}  & =\dom_A     \\
+    \dom_{\underline{A}}    & =\codom_A   \\
+    g\comp_{\underline{A}}f & = f\comp_Ag
+  \end{align}
+\end{definition}
+
+\begin{example}
+  圏$A$は終對象$1$を持てば, $∀a, ∃_1u, u:1→a$.
+  從ひて$\underline{A}$にて$∀a, ∃_1u, u:a→1$.
+
+  終對象は雙對圏にて餘終對象なり.
+  以ちて餘終對象は終對象が\emphNu{雙對}{さぐたい}なると言ふ.
+  逆も真なり.
+\end{example}
+
+\begin{definition}[積]
+  $a_0,a_1,a_0×a_1∈A, π_0:a_0×a_1→a_0, π_1:a_0×a_1→a_1$とす.
+  次を滿たす$(a_0×a_1, π_0, π_1)$は$a_0,a_1$が\emphNu{積}{しゃく}なり.
+  \begin{equation}
+    (∀i∈\braces{0,1},\ ∀f_i:b→a_i),\ ∃_1f_0×f_1,\ f_i=g\comp π_i
+  \end{equation}
+  \begin{center}
+    \begin{tikzcd}
+      & b \arrow[d, dotted, "f_0×f_1"] \ar[ld, "f_0"'] \ar[rd, "f_1"] \\
+      a_0 & a_0×a_1 \ar[l, "π_0"] \ar[r, "π_1"'] & a_1
+    \end{tikzcd}
+  \end{center}
+\end{definition}
+
+\begin{definition}[餘積]
+  \emphNu{餘積}{よしゃく} (和) $(a_0+a_1,\underline{π}_0,\underline{π}_1)$は積が雙對なり.
+  \begin{center}
+    \begin{tikzcd}
+      & b \\
+      a_0 \ar[ru, "f_0"] \ar[r, "\underline{π}_0"'] & a_0+a_1 \arrow[u, dotted, "f_0+f_1"'] & a_1 \ar[lu, "f_1"'] \ar[l, "\underline{π}_1"]
+    \end{tikzcd}
+  \end{center}
+\end{definition}
+
+\begin{definition}[自然變換]
+  圏$A,B$, 函手$F,G:A→B$につき, \emphNu{自然變換}{じねぬへぬぐゎぬ}$α:F→G$は射の集合$\braces{α_a}_{a∈A}$なり.
+  但し次を滿たす.
+  \begin{equation}
+    ∀f∈A(a,b),\ α_a\comp_B Gf=Ff\comp_B α_b
+  \end{equation}
+  \begin{center}
+    \begin{tikzcd}
+      Fa \ar[r, "Ff"] \ar[d, "α_a"] & Fb \ar[d, "α_b"] \\
+      Ga \ar[r, "Gf"] & Gb
+    \end{tikzcd}
+  \end{center}
+\end{definition}
+
+\begin{definition}[函手圏]
+  圏$A,B$につき, \emphNu{函手圏}{ごぬしゅけぬ}$B^A$は次なる圏なり.
+  \begin{align}
+    \obj B^A & = \braces{F; F:A→B}          \\
+    \mor B^A & = \braces{α; α:F→G∧F,G:A→B}  \\
+    α\comp β & = \braces{α_a\comp β_a; a∈A}
+  \end{align}
+\end{definition}
+
+\begin{definition}[定函手]
+  圏$A$につき $Δ_a:A→\braces{a}$は$a∈A$が\emphNu{定函手}{ぢゃぐごぬしゅ}なり.
+  但し次を滿たす.
+  \begin{align}
+     & ∀b,\ Δ_ab=a     \\
+     & ∀f,\ Δ_af=\id a
+  \end{align}
+\end{definition}
+
+\begin{definition}[comma圏]
+  $B\overset{F}{→}A\overset{G}{←}C$につき, \emphNu{comma圏}{commaけぬ}$F/G$は次なる圏なり.
+  \begin{align}
+    F/G∋(b,c,f)                             & ⇔b∈\obj B ∧ c∈\obj C ∧ f:Fb→Gc                                      \\
+    F/G∋(b,c,f)\overset{(g,h)}{→}(b',c',f') & ⇔b\overset{g}{→}b'∈B ∧ c\overset{h}{→}c'∈C ∧ f\comp_AGh=Fg\comp_Af'
+  \end{align}
+  \begin{center}
+    \begin{tikzcd}
+      b \ar[r, "g"] & b' & Fb \ar[r, "Fg"] \ar[d, "f"] & Fb' \ar[d, "f'"]\\
+      & & Gc \ar[r, "Gh"] & Gc' & c \ar[r, "h"] & c'
+    \end{tikzcd}
+  \end{center}
+\end{definition}
+
+\begin{definition}[slice圏]
+  \emphNu{slice圏}{sliceけぬ}$A/a$は$A\overset{\id A}{→}A\overset{a}{←}𝟙$がcomma圏なり.
+  \begin{align}
+    (b,f)∈F/G                      & ⇔f:b→a                             \\
+    (b,f)\overset{g}{→}(b',f')∈F/G & ⇔b\overset{g}{→}b'∈B ∧ f=g\comp f'
+  \end{align}
+  \begin{center}
+    \begin{tikzcd}
+      b \ar[r, "g"] \ar[rd, "f"'] & b' \ar[d, "f'"]\\
+      & a
+    \end{tikzcd}
+  \end{center}
+\end{definition}
+
+\begin{definition}[錐]
+  圏$A$, 函手$F:I→A$につき, $F$への\emphNu{錐}{すい}とは$(a∈A,α:Δ_a→F)$なり.
+  \begin{center}
+    \begin{tikzcd}
+      & &a \ar[d, "α_i"'] \ar[rd, "α_j"] \\
+      i \ar[r, "f"]& j &Fi \ar[r, "Ff"'] & Fj
+    \end{tikzcd}
+  \end{center}
+\end{definition}
+
+\begin{definition}[極限]
+  $F:I\overset{F}{→}A$につき, $F$が\emphNu{極限}{ごくげぬ}とは錐$(\lim F,α)$なり.
+  但し次を滿たす.
+  \begin{equation}
+    ∀(b,β),\ ∃_1 u:b→\lim F,\ ∀i,\ β_i=u\comp α_i
+  \end{equation}
+  \begin{center}
+    \begin{tikzcd}
+      ∀b \arrow[r, dotted, "u"] \ar[rd, "β_i"'] & \lim F \ar[d, "α_i"] \\
+      & Fi
+    \end{tikzcd}
+  \end{center}
+\end{definition}
+
+\begin{example}[終對象と積は極限]
+  \begin{itemize}
+    \item 終對象は空圏$∅$からの函手が極限なり.
+    \item 積は$2$元離散圏$\braces{*, *'}$からの函手が極限なり.
+  \end{itemize}
+\end{example}
+
+\begin{definition}[普遍射]
+  函手$F:A→B$につき, $F$から$b$への\emphNu{普遍射}{ふへんじゃ}はcomma圏$F/a$が終對象$(a,f)$なり.
+  即ち
+  \begin{equation}
+    ∀f':Fa→b,\ ∃_1g:a→a',\ f'=Fg\comp f
+  \end{equation}
+  \begin{center}
+    \begin{tikzcd}
+      a' \arrow[r, dotted, "g"] & a & Fa' \ar[rd, "∀f'"'] \ar[r, "Fg"] & Fa \ar[d, "f"] \\
+      & & & b
+    \end{tikzcd}
+  \end{center}
+\end{definition}
+
+\begin{example}[極限は普遍射]
+  \begin{align}
+    Δ  & :A→A^I   \\
+    Δa & :I→A     \\
+    Δa & =Δ_a     \\
+    Δf & :A^I→A^I \\
+    F  & :I→A
+  \end{align}
+  とせば$(a,α)$は$F$への錐なり.
+
+  $Δ$から$F$への普遍射は極限$(\lim F,α)$なり.
+  \begin{center}
+    \begin{tikzcd}
+      b \arrow[r, dotted, "f"] & \lim F & Δb \ar[rd, "∀β"'] \ar[r, "Δf"] & Δ\lim F \ar[d, "α"] \\
+      & & & F
+    \end{tikzcd}
+  \end{center}
+\end{example}
+
+\begin{definition}[隨伴]
+  $F:A→B$は$G:A←B$が\emphNu{左隨伴}{みぎずいはぬ}なり$⇔∀a∈A,∃\text{$a$から$G$への普遍射}⇔$
+  \begin{align}
+    ∀a∈A,\ ∀f:Fx→a,\ ∃_1g:a'→a,\ f=Fg\comp ε_x
+  \end{align}
+  \begin{center}
+    \begin{tikzcd}
+      Fb \ar[d, "Fg"] \ar[rd, "f"]\\
+      F(Ga) \ar[r, "ε_x"'] & x & Ga
+    \end{tikzcd}
+  \end{center}
+\end{definition}
+
+\printindex
+\end{document}
