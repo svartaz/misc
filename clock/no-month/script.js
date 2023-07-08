@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const millisecPerDay = 1000 * 60 * 60 * 24;
     const day = millisec / millisecPerDay;
 
-    document.body.innerHTML =
+    document.body.querySelector('div').innerHTML =
       d.toISOString()
         .replace(/\d\d-\d\d(?=T)/, Math.floor(day))
         .replace(/\d(?=Z)/, '');
