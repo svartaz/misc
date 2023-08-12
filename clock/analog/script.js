@@ -26,9 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     context.clearRect(0, 0, w, w);
-    context.strokeStyle = params.get("color") || "black";
     context.lineWidth = w / 128;
-    context.lineCap = "round";
     context.imageSmoothingEnabled = true;
 
     const d = new Date();
