@@ -1,0 +1,45 @@
+<html>
+
+<head>
+  <script src="../script.js"></script>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="style.css">
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      setInterval(() => {
+        const d = new Date();
+        const year = d.getFullYear();
+        const d0 = new Date(year, 0, 1);
+        const millisec = d.getTime() - d0.getTime();
+        const millisecPerDay = 1000 * 60 * 60 * 24;
+        const day = millisec / millisecPerDay;
+
+        document.body.querySelector('#date').innerHTML = d.toISOString().replace(/\d\d-\d\dT.+/, Math.floor(day));
+        document.body.querySelector('#time').innerHTML = d.toISOString().replace(/^\d\d\d\d-\d\d-\d\dT/, '');
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <div id="game"></div>
+  <div id="side">
+    <div style="height: 25%" id="info">
+      <div>
+        date='<span id="date"></span>T<span id="time"></span>'
+      </div>
+      <div>player=<wbr/>'svartaz'
+      </div>
+      <div>
+        game=<wbr/>'Chants of Sennar'
+      </div>
+      <div>index=<wbr/>2</div>
+    </div>
+    <div style="height: 25%" id="chat"></div>
+    <div style="height: 25%" id="game-sound"></div>
+    <div style="height: 25%" id="me"></div>
+  </div>
+</body>
+
+</html>
