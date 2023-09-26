@@ -57,7 +57,7 @@ yt-img-shadow img {
 
 yt-img-shadow {
   border-radius: 0 !important;
-  margin-right: 0 !important;
+  margin-right: 0.5em !important;
 }
 
 yt-live-chat-author-chip {

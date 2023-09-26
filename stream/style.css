@@ -1,24 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Condensed&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300,400&display=swap');
 
 * {
   box-sizing: border-box;
-}
-
-.center {
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-
-.right {
-  margin: 0;
-  padding: 0;
-  text-align: right;
-}
-
-div.fill {
-  flex-grow: 1;
 }
 
 html,
@@ -38,14 +21,10 @@ body {
   font-feature-settings: 'tnum';
 
   flex-direction: row;
-  font-size: 180%;
 }
 
-body>div {
+#game {
   height: 100%;
-}
-
-div#game {
   flex: 0 0 1920px;
 }
 
@@ -62,19 +41,62 @@ div#game {
 
 #info {
   width: fit-content;
-  margin: 0 auto;
+  margin: 0;
 
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  width: 100%;
 }
 
-#info>div {
-  display: inline-block;
+/*#info * {
+  border: 1px green solid;
+}*/
+
+table {
+  font: inherit;
+  border-collapse: collapse;
+  margin-left: 1em;
+  margin-right: 1em
 }
 
-#info div {
-  width: fit-content;
-  padding-left: 1em;
-  text-indent: -1em;
+td {
+  padding-left: 0.5em;
+}
+
+th,
+td {
+  font: inherit;
+  font-size: 150%;
+  vertical-align: top;
+}
+
+th {
+  text-align: right;
+  font-style: italic;
+}
+
+th:after {
+  content: ":";
+}
+
+#note {
+  text-align: center;
+  font-size: 150%;
+  text-transform: uppercase;
+  animation: blink 3s ease-in-out infinite alternate;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

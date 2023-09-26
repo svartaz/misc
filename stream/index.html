@@ -15,8 +15,8 @@
         const millisecPerDay = 1000 * 60 * 60 * 24;
         const day = millisec / millisecPerDay;
 
-        document.body.querySelector('#date').innerHTML = d.toISOString().replace(/\d\d-\d\dT.+/, Math.floor(day));
-        document.body.querySelector('#time').innerHTML = d.toISOString().replace(/^\d\d\d\d-\d\d-\d\dT/, '');
+        document.body.querySelector("#date").innerHTML = d.toISOString().replace(/\d\d-\d\dT.+/, Math.floor(day));
+        document.body.querySelector("#time").innerHTML = d.toISOString().replace(/^\d\d\d\d-\d\d-\d\dT/, "");
       });
     });
   </script>
@@ -26,15 +26,27 @@
   <div id="game"></div>
   <div id="side">
     <div style="height: 25%" id="info">
-      <div>
-        date='<span id="date"></span>T<span id="time"></span>'
+      <table>
+        <tr>
+          <th>date</th>
+          <td><span id="date"></span>T<span id="time"></span></td>
+        </tr>
+        <tr>
+          <th>player</th>
+          <td>svartaz</td>
+        </tr>
+        <tr>
+          <th>game</th>
+          <td>sample title</td>
+        </tr>
+        <tr>
+          <th>index</th>
+          <td>0</td>
+        </tr>
+      </table>
+      <div id="note">
+        buy the game if you enjoy watching this
       </div>
-      <div>player=<wbr/>'svartaz'
-      </div>
-      <div>
-        game=<wbr/>'Chants of Sennar'
-      </div>
-      <div>index=<wbr/>2</div>
     </div>
     <div style="height: 25%" id="chat"></div>
     <div style="height: 25%" id="game-sound"></div>
