@@ -1,0 +1,59 @@
+html {
+  view-transition-name: unset !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+body {
+  transform: unset !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+body>#root {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+body>#root>.fill-window {
+  position: unset !important;
+}
+
+body>#root>.fill-window>svg {
+  overflow: unset !important;
+  overflow-clip-margin: unset !important;
+  min-height: fit-content !important;
+  height: 140px !important;
+  background-color: yellow;
+}
+
+body>#root>.fill-window>svg>foreignObject {
+  overflow: unset !important;
+  transform-origin: unset !important;
+
+  width: fit-content;
+  background-color: pink;
+}
+
+body>#root>.fill-window>svg>foreignObject>div {
+  all: unset !important;
+  background-color: #0F08;
+}
+
+body>#root>.fill-window>svg>foreignObject>div>#heartRate {
+  all: initial !important;
+  padding: 0 !important;
+  font-size: initial !important;
+  line-height: initial !important;
+
+  position: fixed !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  color: paleturquoise !important;
+  font-family: DotGothic16 !important;
+}

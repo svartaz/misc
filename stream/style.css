@@ -1,46 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200&family=DotGothic16&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
 
 * {
   box-sizing: border-box;
+}
+
+html {
+  background-color: red;
 }
 
 html,
 body {
   margin: 0;
   padding: 0;
+
+  width: 100vw;
+  height: 100vh;
+  font-size: 150%;
 }
 
 body {
   background-color: black;
-  color: white;
+  color: paleturquoise;
+  font-family: 'DotGothic16', 'Noto Sans JP';
+}
+
+.center {
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  font-family: 'Barlow Condensed', 'Noto Sans JP';
-  font-weight: 300;
-  font-stretch: ultra-condensed;
-  font-feature-settings: 'tnum';
-
-  flex-direction: row;
+.opaque {
+  opacity: .25;
 }
 
 #game {
-  height: 100%;
-  flex: 0 0 1920px;
+  flex: 0 0 1080px;
+
+  background: repeating-linear-gradient(45deg,
+      transparent,
+      transparent 16px,
+      #afeeee10 16px,
+      #afeeee10 32px);
 }
 
 #side {
-  border-left: 1px solid;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  flex: 1;
+  border-block-start: 1px solid;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto 60px 60px;
+  gap: 1px 1px;
+  background-color: paleturquoise;
 }
 
-#side>div:not(:first-child) {
-  border-top: 1px solid;
+#side>div {
+  background-color: black;
 }
 
 #info {
-  width: fit-content;
   margin: 0;
 
   display: flex;
@@ -49,54 +68,45 @@ body {
   width: 100%;
 }
 
-/*#info * {
-  border: 1px green solid;
-}*/
-
-table {
+#info table {
   font: inherit;
   border-collapse: collapse;
-  margin-left: 1em;
-  margin-right: 1em
-}
-
-td {
-  padding-left: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 75%;
+  border-spacing: 200px 100px;
 }
 
 th,
 td {
   font: inherit;
-  font-size: 150%;
-  vertical-align: top;
 }
 
 th {
   text-align: right;
-  font-style: italic;
+  opacity: .5;
 }
 
 th:after {
-  content: ":";
+  content: ":\00a0";
 }
 
 #note {
-  text-align: center;
-  font-size: 150%;
-  text-transform: uppercase;
-  animation: blink 3s ease-in-out infinite alternate;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#note div {
+  animation: blink 2s step-start infinite;
 }
 
 @keyframes blink {
   0% {
-    opacity: 0.2;
+    opacity: 1;
   }
 
   50% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 1;
+    opacity: .5;
   }
 }
