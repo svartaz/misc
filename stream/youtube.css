@@ -94,27 +94,27 @@ yt-live-chat-text-message-renderer>div#content>span#message:before {
 }
 
 yt-live-chat-text-message-renderer:nth-last-of-type(2) {
-  opacity: .6
+  opacity: .66
 }
 
 yt-live-chat-text-message-renderer:nth-last-of-type(3) {
-  opacity: calc(.6 * .6)
+  opacity: calc(.66 * .66)
 }
 
 yt-live-chat-text-message-renderer:nth-last-of-type(4) {
-  opacity: calc(.6 * .6 * .6)
+  opacity: calc(.66 * .66 * .66)
 }
 
 yt-live-chat-text-message-renderer:nth-last-of-type(5) {
-  opacity: calc(.6 * .6 * .6 * .6)
+  opacity: calc(.66 * .66 * .66 * .66)
 }
 
 yt-live-chat-text-message-renderer:nth-last-of-type(6) {
-  opacity: calc(.6 * .6 * .6 * .6)
+  opacity: calc(.66 * .66 * .66 * .66 * .66)
 }
 
 yt-live-chat-text-message-renderer:nth-last-of-type(7) {
-  opacity: calc(.6 * .6 * .6 * .6 * .6)
+  opacity: calc(.66 * .66 * .66 * .66 * .66 * .66)
 }
 
 /* https://codepen.io/sosuke/pen/Pjoqqp */

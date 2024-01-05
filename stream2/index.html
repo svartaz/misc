@@ -1,0 +1,76 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="style.css">
+  <script>document.addEventListener("DOMContentLoaded", () => {
+      setInterval(() => {
+        const d = new Date();
+        const year = d.getFullYear();
+        const d0 = new Date(year, 0, 1);
+        const millisec = d.getTime() - d0;
+        const millisecPerDay = 1000 * 60 * 60 * 24;
+        const day = millisec / millisecPerDay;
+
+        const daysPerYear = (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0) ? 366 : 365;
+
+        document.body.querySelector("#year").innerHTML = `${year}-${Math.floor(day).toString().padStart(3, "0").slice(0, 3)}`;
+        document.body.querySelector("#day").innerHTML = `.${(day % 1).toString().replace(/^0\./, "").padEnd(6, "0").slice(0, 6)}JST`;
+        document.body.querySelector("#year-back").style.width = `${Math.floor(day) / daysPerYear * 100}%`;
+        document.body.querySelector("#day-back").style.width = `${day % 1 * 100}%`;
+      }, 1000 / 60);
+    }
+
+    );
+  </script>
+</head>
+
+<body style="display: flex; flex-direction: column;">
+  <div id="game" class="center stripe">
+    <div style="opacity: .5">game</div>
+  </div>
+  <div class="info" style="
+      height: 360px;
+      display: grid;
+      gap: 1px;
+      grid-auto-rows: 1fr;
+      grid-template-columns: repeat(6, 1fr);
+      background-color: currentColor;
+    ">
+    <div style="grid-column: 1; grid-row: 1;" class="center">
+      sumi.space
+    </div>
+    <div style="grid-column: 6; grid-row: 1;" class="center stripe">
+    </div>
+
+    <img style="grid-column: 1; grid-row: 2/6; overflow: clip;"
+      src="https://pbs.twimg.com/profile_images/1682696476491911168/rl-ntYm-_400x400.jpg" />
+    <div style="grid-column: 6; grid-row: 2/6; overflow: clip;" class="center stripe">
+      <div style="opacity: .5">guest</div>
+    </div>
+
+    <div style="grid-column: 2/4; grid-row: 1/5"></div>
+    <div style="grid-column: 4; grid-row: 1/5; text-align: center;">
+      <div style="opacity: .5">voice</div>
+    </div>
+    <div style="grid-column: 5; grid-row: 1/5; text-align: center;">
+      <div style="opacity: .5">audio</div>
+    </div>
+
+    <div style="grid-column: 2/4; grid-row: 5; position: relative;" class="center">
+      <div class="label">game</div>
+      Toodee and Topdee
+    </div>
+    <div style="grid-column: 4; grid-row: 5; position: relative;">
+      <div id="year-back"
+        style="position: absolute; left: 0; height: 100%; background-color: currentColor; opacity: .5;"></div>
+      <div id="year" style="width: 100%; height: 100%;" class="center"></div>
+    </div>
+    <div style="grid-column: 5; grid-row: 5; position: relative;">
+      <div id="day-back"
+        style="position: absolute; left: 0; height: 100%; background-color: currentColor; opacity: .25;"></div>
+      <div id="day" style="width: 100%; height: 100%;" class="center"></div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200&family=DotGothic16&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+
+  width: 100vw;
+  height: 100vh;
+  font-size: 150%;
+}
+
+body {
+  background-color: black;
+  color: paleturquoise;
+  font-family: 'DotGothic16', 'Noto Sans JP';
+}
+
+#game {
+  flex: 0 0 1080px;
+  border-bottom: 1px solid paleturquoise;
+}
+
+.stripe {
+  background: repeating-linear-gradient(45deg,
+    transparent,
+    transparent 16px,
+    #afeeee10 16px,
+    #afeeee10 32px);
+}
+
+img {
+  width: 100%;
+}
+
+.info > div {
+  background-color: #000;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.label {
+  opacity: .5;
+  position: absolute;
+  left: 0;
+  margin-left: 16px;
+}
