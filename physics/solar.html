@@ -1,0 +1,129 @@
+<html>
+
+<head>
+  <style>
+    body {
+      font-family: monospace;
+      display: flex;
+    }
+
+    canvas {
+      border: 1px solid;
+      background: black;
+    }
+
+    #objects {
+      white-space: pre;
+    }
+  </style>
+
+  <script>
+    const g = 6.67430e-11;
+    const dt = 1;
+    const updatePerFrame = 1e+4;
+    const meterPerPixel = 3.5e+8;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.querySelector('canvas');
+      canvas.width = canvas.height = canvas.parentNode.getBoundingClientRect().height;
+      const context = canvas.getContext('2d');
+
+      let objects = [
+        {
+          name: "sun",
+          x: 0,
+          y: 0,
+          vx: 0,
+          vy: 0,
+          m: 1.989e+30, color: 'orangered',
+          r: 696340000,
+        },
+        {
+          name: "earth",
+          x: 1.49597870700e+11,
+          y: 0,
+          vx: 0,
+          vy: 29780,
+          m: 5.972e+24, color: 'dodgerblue',
+          r: 6371000,
+        },
+        {
+          name: "moon",
+          x: 1.49597870700e+11 + 384400000,
+          y: 0,
+          vx: 0,
+          vy: 29780 + 1022,
+          m: 7.347e+22, color: 'yellow',
+          r: 1737400,
+        },
+      ];
+
+      const clear = () => {
+        context.rect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = "rgba(0, 0, 0, 0.03125)";
+        context.fill();
+      }
+
+      const draw = () => {
+        for (const { x, y, m, color, r } of objects) {
+          context.beginPath();
+          context.fillStyle = color;
+          context.arc(
+            (x - objects[0].x) / meterPerPixel + canvas.width / 2,
+            (y - objects[0].y) / meterPerPixel + canvas.height / 2,
+            Math.log2(r) / 4, 0, Math.PI * 2);
+          context.fill();
+        }
+      };
+
+      const update = () => {
+        const objectsNew = [];
+        for (let i = 0; i < objects.length; i++) {
+          let { x, y, vx, vy, m, ...o } = objects[i];
+
+          let fx = 0;
+          let fy = 0;
+          for (let j = 0; j < objects.length; j++)
+            if (i != j) {
+              const dx = objects[j].x - x;
+              const dy = objects[j].y - y;
+              const rr = dx * dx + dy * dy;
+
+              const f = g * m * objects[j].m / rr;
+              fx += f * dx / Math.sqrt(rr);
+              fy += f * dy / Math.sqrt(rr);
+            }
+
+          ax = fx / m;
+          ay = fy / m;
+
+          x += vx * dt;
+          y += vy * dt;
+
+          vx += ax * dt;
+          vy += ay * dt;
+
+          objectsNew.push({ name: o.name, x, y, vx, vy, m, ...o });
+        }
+        objects = objectsNew
+      };
+
+      let t = 0;
+      setInterval(() => {
+        clear();
+        draw();
+        for (let i = 0; i < updatePerFrame; i++)
+          update();
+        t += dt * updatePerFrame;
+        document.querySelector("#objects").textContent = JSON.stringify({ t, meterPerPixel, objects }, null, 2);
+      }, 1);
+    });
+  </script>
+</head>
+
+<body>
+  <canvas></canvas>
+  <div id="objects"></div>
+</body>
+
+</html>
